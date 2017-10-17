@@ -1,15 +1,29 @@
-import React      from 'react';
-import ReactDOM   from 'react-dom';
-import {
-  BrowserRouter,
-  Route, Switch,
-  Link, NavLink
-}                 from 'react-router-dom';
+// Libraries
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom";
 
-import 'normalize.css/normalize.css';
-import './styles/styles.scss';
+// Styles
+import "normalize.css/normalize.css";
+import "./styles/styles.scss";
 
-import AppRouter from './routers/AppRouter'
+// Components, Functions, ...
+import AppRouter from "./routers/AppRouter";
+import configureStore from "./store/configureStore";
+import { addExpense } from "./actions/expenses";
+import { setTextFilter } from "./actions/filters";
+import getVisibleExpenses from "./selectors/expenses";
 
+// Variables
+const store = configureStore();
 
-ReactDOM.render(<AppRouter />, document.getElementById('app'));
+store.subscribe(() => console.log(store.getState()));
+
+store.dispatch(addExpense({ description: "Water bill", amount: 2000 }));
+store.dispatch(addExpense({ description: "Gas bill", amount: 1000 }));
+store.dispatch(setTextFilter("Bill"));
+
+const state = store.getState();
+console.log(getVisibleExpenses(state.expenses, state.filters));
+
+ReactDOM.render(<AppRouter />, document.getElementById("app"));

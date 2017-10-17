@@ -135,7 +135,6 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
         endDate: action.date
       })
 
-
     default:
       return state
   }
