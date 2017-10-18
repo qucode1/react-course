@@ -22,7 +22,7 @@ store.subscribe(() => console.log(store.getState()));
 
 store.dispatch(addExpense({ description: "Water bill", amount: 2000 }));
 store.dispatch(addExpense({ description: "Gas bill", amount: 1000 }));
-store.dispatch(setTextFilter("Bill"));
+store.dispatch(setTextFilter("Water"));
 
 const state = store.getState();
 console.log(getVisibleExpenses(state.expenses, state.filters));
