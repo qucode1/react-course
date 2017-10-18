@@ -1,6 +1,7 @@
 // Libraries
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom";
 
 // Styles
@@ -26,4 +27,10 @@ store.dispatch(setTextFilter("Bill"));
 const state = store.getState();
 console.log(getVisibleExpenses(state.expenses, state.filters));
 
-ReactDOM.render(<AppRouter />, document.getElementById("app"));
+const jsx = (
+  <Provider store={store}>
+    <AppRouter />
+  </Provider>
+);
+
+ReactDOM.render(jsx, document.getElementById("app"));

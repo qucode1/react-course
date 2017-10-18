@@ -42,7 +42,7 @@ const AdminInfo = withAdminWarning(Info);
 const AuthInfo = requireAuthentication(Info);
 
 ReactDom.render(
-  // <AdminInfo isAdmin={true} info="These are the details" />,
+  //   <AdminInfo isAdmin={true} info="These are the details" />,
   <AuthInfo isAuthenticated={true} info="These are the details" />,
   document.querySelector("#app")
 );
