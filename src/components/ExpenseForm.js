@@ -1,12 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
-import { addExpense } from "../actions/expenses";
+import moment from "moment";
+import { SingleDatePicker } from "react-dates";
+import "react-dates/lib/css/_datepicker.css";
 
-class ExpenseForm extends React.Component {
+const now = moment();
+
+console.log(now);
+
+export default class ExpenseForm extends React.Component {
   state = {
     description: "",
     note: "",
-    amount: ""
+    amount: "",
+    createdAt: moment(),
+    calendarFocused: false,
+    error: ""
   };
   onInputChange = e => {
     switch (e.target.name) {
@@ -14,7 +22,7 @@ class ExpenseForm extends React.Component {
       case "note":
         return this.setState({ [e.target.name]: e.target.value });
       case "amount":
-        if (e.target.value.match(/^\d*(\.\d{0,2})?$/)) {
+        if (!e.target.value || e.target.value.match(/^\d{1,}(\.\d{0,2})?$/)) {
           return this.setState({ [e.target.name]: e.target.value });
         }
         return;
@@ -27,10 +35,37 @@ class ExpenseForm extends React.Component {
       amount: ""
     });
   };
+  onDateChange = createdAt => {
+    if (createdAt) {
+      this.setState({
+        createdAt
+      });
+    }
+  };
+  onFocusChange = ({ focused }) => {
+    this.setState({ calendarFocused: focused });
+  };
   render() {
     return (
       <div>
-        <form>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            if (!this.state.description || !this.state.amount) {
+              this.setState({
+                error: "Please add an expense description and an amount!"
+              });
+            } else {
+              this.props.onSubmit({
+                description: this.state.description,
+                amount: this.state.amount,
+                note: this.state.note,
+                createdAt: this.state.createdAt.unix()
+              });
+            }
+          }}
+        >
+          {this.state.error && <p>{this.state.error}</p>}
           <input
             name="description"
             type="text"
@@ -46,6 +81,14 @@ class ExpenseForm extends React.Component {
             value={this.state.amount}
             onChange={this.onInputChange}
           />
+          <SingleDatePicker
+            date={this.state.createdAt}
+            onDateChange={this.onDateChange}
+            focused={this.state.calendarFocused}
+            onFocusChange={this.onFocusChange}
+            numberOfMonths={1}
+            isOutsideRange={() => false}
+          />
           <textarea
             name="note"
             placeholder="Add a note for your expense (optional)"
@@ -54,19 +97,9 @@ class ExpenseForm extends React.Component {
             value={this.state.note}
             onChange={this.onInputChange}
           />
-          <button
-            onClick={e => {
-              e.preventDefault();
-              this.props.dispatch(addExpense(this.state));
-              this.clearInputs();
-            }}
-          >
-            Add Expense
-          </button>
+          <button>Add Expense</button>
         </form>
       </div>
     );
   }
 }
-
-export default connect()(ExpenseForm);
