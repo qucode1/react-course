@@ -4,10 +4,10 @@ import ReactDOM from "react-dom";
 import ExpenseList from "./ExpenseList";
 import ExpenseListFilters from "./ExpenseListFilters";
 
-const ExpenseDashboardPage = () => (
+const ExpenseDashboardPage = props => (
   <div>
     <ExpenseListFilters />
-    <ExpenseList />
+    <ExpenseList history={props.history} />
   </div>
 );
 

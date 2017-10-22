@@ -17,7 +17,11 @@ const ExpenseList = props => (
       </thead>
       <tbody>
         {props.expenses.map(expense => (
-          <ExpenseListItem key={expense.id} {...expense} />
+          <ExpenseListItem
+            key={expense.id}
+            {...expense}
+            history={props.history}
+          />
         ))}
       </tbody>
     </table>
