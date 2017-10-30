@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch, Link, NavLink } from "react-router-dom";
 // Styles
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
+import "react-dates/lib/css/_datepicker.css";
 
 // Components, Functions, ...
 import AppRouter from "./routers/AppRouter";

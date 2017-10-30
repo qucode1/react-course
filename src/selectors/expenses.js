@@ -5,10 +5,10 @@ export default (expenses, { text, sortBy, startDate, endDate }) => {
   return expenses
     .filter(expense => {
       const startDateMatch = startDate
-        ? moment.unix(expense.createdAt).isSameOrAfter(startDate, "day")
+        ? moment(expense.createdAt * 1000).isSameOrAfter(startDate, "day")
         : true;
       const endDateMatch = endDate
-        ? moment.unix(expense.createdAt).isSameOrBefore(endDate, "day")
+        ? moment(expense.createdAt * 1000).isSameOrBefore(endDate, "day")
         : true;
       const textMatch = () => {
         const lowerText = text.toLowerCase();

@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import { SingleDatePicker } from "react-dates";
-import "react-dates/lib/css/_datepicker.css";
 
 export default class ExpenseForm extends React.Component {
   state = {
@@ -9,7 +8,7 @@ export default class ExpenseForm extends React.Component {
     note: this.props.expense ? this.props.expense.note : "",
     amount: this.props.expense ? this.props.expense.amount.toString() : "",
     createdAt: this.props.expense
-      ? moment.unix(this.props.expense.createdAt)
+      ? moment(this.props.expense.createdAt * 1000)
       : moment(),
     calendarFocused: false,
     error: ""
